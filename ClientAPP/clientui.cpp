@@ -43,7 +43,9 @@ void ClientUI::slotReadyRead()
 
     qDebug() << "=====================";
     QString greeting;
+
     in >> greeting;
+    qDebug() << "{{{{ " << greeting;
 //    doSomething(greeting);
     ui->textBrowser_recv->append(greeting);
     m_tcpBlockSize = 0;
