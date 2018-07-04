@@ -51,10 +51,7 @@ void ConnectClient::on_pushButton_send_clicked()
     QDataStream out(&buffer, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_4_6);
 
-    QString greeting = QString("Hello! The time is %1")
-                    .arg(QTime::currentTime().toString());
     out << (quint16)0;
-    out << greeting;
     out << ui->textEdit_send->toPlainText();   //获取界面文本输入
     out.device()->seek(0);
     out << (quint16)(buffer.size() - sizeof(quint16));

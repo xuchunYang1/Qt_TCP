@@ -29,6 +29,23 @@ void ServerUI::slotNewConnection()
     qDebug() << "ServerUI::slotNewConnection()";
     QTcpSocket *connection = m_tcpServer->nextPendingConnection();
 
+    QByteArray buffer;
+    QDataStream out(&buffer, QIODevice::WriteOnly);
+    out.setVersion(QDataStream::Qt_4_6);
+
+    QString greeting = QString("Hello! The time is %1")
+        .arg(QTime::currentTime().toString());
+    out << (quint16)0;
+    out << greeting;
+    out.device()->seek(0);
+    out << (quint16)(buffer.size() - sizeof(quint16));
+
+
+    qDebug() << "SendSize: " << buffer.size();
+    connection->write(buffer);
+
+
+
     ConnectClient *client = new ConnectClient(connection);
     m_list.append(client);
 
